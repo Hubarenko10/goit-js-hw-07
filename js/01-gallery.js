@@ -30,13 +30,17 @@ function openImg(e) {
     const selectedImg = e.target.dataset.source;
     const instance = basicLightbox.create(`
     <img src="${selectedImg}" width="800" height="600">
-`, )
-    instance.show();
-
-    gallery.addEventListener('keydown', (e) => {
+`, {
+        onShow: (instance) => gallery.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         instance.close();
-    }});
+    }}),
+        onClose: (instance) => gallery.removeEventListener('keydown',(e) => {
+    if (e.key === 'Escape') {
+        instance.close();
+    }}),
+})
+    instance.show();
 }
 
 
